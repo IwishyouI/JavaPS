@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Main {
@@ -49,35 +50,30 @@ public class Main {
         sc.close();
     }
 
-    // DFS 구현 (재귀)
+
     static void dfs(int node) {
-        // 현재 노드 방문 처리
+
         visited[node] = true;
         dfsResult.append(node).append(" ");
-
-        // 인접한 노드 중 방문하지 않은 노드를 재귀적으로 방문
+        
         for (int next : graph[node]) {
             if (!visited[next]) {
                 dfs(next);
+
             }
         }
     }
 
-    // BFS 구현 (큐 사용)
-    static void bfs(int start) {
-        Queue<Integer> queue = new LinkedList<>();
 
-        // 시작 노드 방문 처리 및 큐에 삽입
+    static void bfs(int start) {
+
+        Queue<Integer> queue = new LinkedList<>();
         visited[start] = true;
         queue.offer(start);
         bfsResult.append(start).append(" ");
-
-        // 큐가 빌 때까지 반복
         while (!queue.isEmpty()) {
-            // 큐에서 하나의 노드를 꺼내기
             int node = queue.poll();
 
-            // 해당 노드의 인접 노드 중 방문하지 않은 노드를 모두 큐에 삽입
             for (int next : graph[node]) {
                 if (!visited[next]) {
                     visited[next] = true;

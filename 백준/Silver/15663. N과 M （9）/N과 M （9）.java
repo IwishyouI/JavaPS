@@ -28,6 +28,7 @@ public class Main {
     }
 
     static void dfs(int depth) {
+
         if (depth == M) { // M개의 숫자를 모두 선택한 경우
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < M; i++) {
@@ -41,12 +42,11 @@ public class Main {
         }
 
         for (int i = 0; i < N; i++) {
-            // visited[i]를 확인하여 해당 인덱스의 숫자를 사용했는지 체크
             if (!visited[i]) {
-                visited[i] = true; // 사용함으로 표시
-                selected[depth] = nums[i]; // 현재 깊이에 숫자 선택
-                dfs(depth + 1); // 다음 깊이로 재귀 호출
-                visited[i] = false; // 백트래킹: 다음 탐색을 위해 사용 안 함으로 표시 변경
+                visited[i] = true;
+                selected[depth] = nums[i];
+                dfs(depth + 1);
+                visited[i] = false;
             }
         }
     }

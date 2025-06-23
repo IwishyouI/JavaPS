@@ -27,18 +27,21 @@ public class Main {
         }
     }
 
+
     static void dfs(int depth) {
 
-        if (depth == M) { // M개의 숫자를 모두 선택한 경우
+        if (depth == M) {
             StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < M; i++) {
                 sb.append(selected[i]);
-                if (i < M - 1) { // 마지막 숫자가 아니면 공백 추가
+                if (i < M - 1) {
                     sb.append(" ");
                 }
             }
-            result.add(sb.toString()); // 완성된 수열을 Set에 추가 (중복 제거)
-            return;
+                result.add(sb.toString());
+                return;
+
         }
 
         for (int i = 0; i < N; i++) {
@@ -49,5 +52,6 @@ public class Main {
                 visited[i] = false;
             }
         }
+
     }
 }

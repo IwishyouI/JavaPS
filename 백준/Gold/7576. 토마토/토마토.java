@@ -1,23 +1,25 @@
-
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
 
 
-    static boolean[][] visited;
-
-    static int[][] arr;
-    static int[][] days;
-
     static int N, M;
 
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {-1, 1, 0, 0};
+
+    static int dx[] = {0, 0, -1, 1};
+    static int dy[] = {-1, 1, 0, 0};
+
+    static int arr[][];
+
+    static int days[][];
+
 
     static Queue<int[]> queue = new LinkedList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
 
         Scanner sc = new Scanner(System.in);
@@ -25,24 +27,23 @@ public class Main {
         M = sc.nextInt();
         N = sc.nextInt();
 
+
         arr = new int[N][M];
 
         days = new int[N][M];
-
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 arr[i][j] = sc.nextInt();
                 if (arr[i][j] == 1) {
-                    queue.add(new int[]{i, j}); // 토마토가 익어가기 시작하는 부분을 추가해준다 .
+                    queue.add(new int[]{i, j});
                 }
             }
         }
 
-
         bfs();
-        int result = 0;
 
+        int result = 0;
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
@@ -55,7 +56,6 @@ public class Main {
             }
         }
 
-
         System.out.println(result);
 
     }
@@ -66,7 +66,6 @@ public class Main {
 
         while (!queue.isEmpty()) {
 
-
             int[] node = queue.poll();
 
             int nowX = node[0];
@@ -74,7 +73,6 @@ public class Main {
 
 
             for (int i = 0; i < 4; i++) {
-
                 int nextX = nowX + dx[i];
                 int nextY = nowY + dy[i];
 
@@ -83,13 +81,16 @@ public class Main {
                     if (arr[nextX][nextY] == 0) {
                         arr[nextX][nextY] = 1;
                         days[nextX][nextY] = days[nowX][nowY] + 1;
-                        queue.add(new int[]{nextX, nextY});
 
+                        queue.add(new int[]{nextX, nextY});
                     }
                 }
             }
-        }
 
+        }
     }
 
+
 }
+
+

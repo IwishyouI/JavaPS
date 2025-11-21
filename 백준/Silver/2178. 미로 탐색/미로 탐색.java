@@ -1,55 +1,85 @@
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static int N, M;
-    static int[][] map;
-    static boolean[][] visited;
-    static int[] dx = {-1, 1, 0, 0}; // 상하좌우
-    static int[] dy = {0, 0, -1, 1};
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        M = sc.nextInt();
-        sc.nextLine(); // 개행 제거
+
+    static int N, M;
+
+    static int map[][];
+
+    static int dx[] = {0, 0, -1, 1};
+    static int dy[] = {-1, 1, 0, 0};
+
+    static boolean visited[][];
+
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(bf.readLine());
+
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
 
         map = new int[N][M];
+
         visited = new boolean[N][M];
 
         for (int i = 0; i < N; i++) {
-            String line = sc.nextLine();
+            String line = bf.readLine();
             for (int j = 0; j < M; j++) {
                 map[i][j] = line.charAt(j) - '0';
+
             }
         }
 
-        bfs(0, 0);
+        int result = bfs(0, 0, 1);
+        System.out.println(result);
 
-        System.out.println(map[N - 1][M - 1]);
     }
 
-    static void bfs(int x, int y) {
+
+    static int bfs(int x, int y, int d) {
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {x, y});
+
+        queue.offer(new int[]{x, y, d});
         visited[x][y] = true;
 
+
         while (!queue.isEmpty()) {
-            int[] now = queue.poll();
-            int nowX = now[0];
-            int nowY = now[1];
 
+            int[] node = queue.poll();
+
+            int currentX = node[0];
+            int currentY = node[1];
+            int currentD = node[2];
+
+            if (currentX == N - 1 && currentY == M - 1) {
+                return currentD;
+            }
             for (int i = 0; i < 4; i++) {
-                int nextX = nowX + dx[i];
-                int nextY = nowY + dy[i];
+                int nx = currentX + dx[i];
+                int ny = currentY + dy[i];
 
-                if (nextX >= 0 && nextY >= 0 && nextX < N && nextY < M) {
-                    if (map[nextX][nextY] == 1 && !visited[nextX][nextY]) {
-                        visited[nextX][nextY] = true;
-                        map[nextX][nextY] = map[nowX][nowY] + 1;
-                        queue.add(new int[] {nextX, nextY});
+                if (nx >= 0 && ny >= 0 && nx < N && ny < M) {
+                    if (!visited[nx][ny] && map[nx][ny] == 1) {
+                        visited[nx][ny] = true;
+                        queue.add(new int[]{nx, ny, currentD + 1});
                     }
                 }
             }
+
         }
+        return -1;
+
     }
+
 }

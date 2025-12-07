@@ -6,80 +6,54 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-
-
-    static int N, M;
-
-    static int map[][];
-
     static int dx[] = {0, 0, -1, 1};
     static int dy[] = {-1, 1, 0, 0};
-
+    static int N, M;
+    static int map[][];
     static boolean visited[][];
-
-
+    
     public static void main(String[] args) throws IOException {
-
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-
-        StringTokenizer st = new StringTokenizer(bf.readLine());
-
-
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-
-        map = new int[N][M];
-
+        String line = bf.readLine();
+        String[] split = line.split(" ");
+        N = Integer.parseInt(split[0]);
+        M = Integer.parseInt(split[1]);
         visited = new boolean[N][M];
-
+        map = new int[N][M];
         for (int i = 0; i < N; i++) {
-            String line = bf.readLine();
+            String m = bf.readLine();
             for (int j = 0; j < M; j++) {
-                map[i][j] = line.charAt(j) - '0';
-
+                map[i][j] = m.charAt(j) - '0';
             }
         }
-
-        int result = bfs(0, 0, 1);
-        System.out.println(result);
-
+        
+        // ⭐ 추가!
+        bfs(0, 0);
+        System.out.println(map[N-1][M-1]);
     }
-
-
-    static int bfs(int x, int y, int d) {
+    
+    // ⭐ void로 변경, distance 파라미터 제거
+    static void bfs(int x, int y) {
         Queue<int[]> queue = new LinkedList<>();
-
-        queue.offer(new int[]{x, y, d});
+        queue.add(new int[]{x, y});  // ⭐ 좌표만!
         visited[x][y] = true;
-
-
+        
         while (!queue.isEmpty()) {
-
             int[] node = queue.poll();
-
-            int currentX = node[0];
-            int currentY = node[1];
-            int currentD = node[2];
-
-            if (currentX == N - 1 && currentY == M - 1) {
-                return currentD;
-            }
+            int cx = node[0];
+            int cy = node[1];
+            // cd 제거!
+            
             for (int i = 0; i < 4; i++) {
-                int nx = currentX + dx[i];
-                int ny = currentY + dy[i];
-
-                if (nx >= 0 && ny >= 0 && nx < N && ny < M) {
-                    if (!visited[nx][ny] && map[nx][ny] == 1) {
-                        visited[nx][ny] = true;
-                        queue.add(new int[]{nx, ny, currentD + 1});
-                    }
+                int nx = cx + dx[i];
+                int ny = cy + dy[i];
+                if (nx >= 0 && ny >= 0 && nx < N && ny < M 
+                    && !visited[nx][ny] && map[nx][ny] == 1) {
+                    visited[nx][ny] = true;
+                    map[nx][ny] = map[cx][cy] + 1;
+                    queue.add(new int[]{nx, ny});  // ⭐ 좌표만!
                 }
             }
-
         }
-        return -1;
-
     }
-
 }
